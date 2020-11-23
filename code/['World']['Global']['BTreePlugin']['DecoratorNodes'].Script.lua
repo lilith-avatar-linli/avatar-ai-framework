@@ -1,10 +1,9 @@
-local b3 = require(BTreePlugin.B3)
 ------------------Decorator----------------------
-local decorator = b3.Class('Decorator', b3.BaseNode)
-b3.Decorator = decorator
+local decorator = B3.Class('Decorator', B3.BaseNode)
+B3.Decorator = decorator
 
 function decorator:ctor(params)
-    b3.BaseNode.ctor(self, params)
+    B3.BaseNode.ctor(self, params)
 
     if not params then
         params = {}
@@ -14,11 +13,11 @@ function decorator:ctor(params)
 end
 
 ---------Repeater
-local repeater = b3.Class('Repeater', b3.Decorator)
-b3.Repeater = repeater
+local repeater = B3.Class('Repeater', B3.Decorator)
+B3.Repeater = repeater
 
 function repeater:ctor(params)
-    b3.Decorator.ctor(self)
+    B3.Decorator.ctor(self)
 
     if not params then
         params = {}
@@ -39,16 +38,16 @@ end
 
 function repeater:tick(tick)
     if not self.child then
-        return b3.ERROR
+        return B3.ERROR
     end
 
     local i = tick.blackboard:get('i', tick.tree.id, self.id)
-    local status = b3.SUCCESS
+    local status = B3.SUCCESS
 
     while (self.maxLoop < 0 or i < self.maxLoop) do
         --print(i)
         local status = self.child:_execute(tick)
-        if status == b3.SUCCESS or status == b3.FAILURE then
+        if status == B3.SUCCESS or status == B3.FAILURE then
             i = i + 1
             wait()
         else
@@ -61,11 +60,11 @@ function repeater:tick(tick)
 end
 
 ---------------RepeatUntilSuccess
-local repeatUntilSuccess = b3.Class('RepeatUntilSuccess', b3.Decorator)
-b3.RepeatUntilSuccess = repeatUntilSuccess
+local repeatUntilSuccess = B3.Class('RepeatUntilSuccess', B3.Decorator)
+B3.RepeatUntilSuccess = repeatUntilSuccess
 
 function repeatUntilSuccess:ctor(params)
-    b3.Decorator.ctor(self)
+    B3.Decorator.ctor(self)
 
     if not params then
         params = {}
@@ -85,16 +84,16 @@ end
 
 function repeatUntilSuccess:tick(tick)
     if not self.child then
-        return b3.ERROR
+        return B3.ERROR
     end
 
     local i = tick.blackboard.get('i', tick.tree.id, self.id)
-    local status = b3.ERROR
+    local status = B3.ERROR
 
     while (self.maxLoop < 0 or i < self.maxLoop) do
         local status = self.child:_execute(tick)
 
-        if status == b3.FAILURE then
+        if status == B3.FAILURE then
             i = i + 1
         else
             break
@@ -106,11 +105,11 @@ function repeatUntilSuccess:tick(tick)
 end
 
 ------------------RepeatUntilFailure
-local repeatUntilFailure = b3.Class('RepeatUntilFailure', b3.Decorator)
-b3.RepeatUntilFailure = repeatUntilFailure
+local repeatUntilFailure = B3.Class('RepeatUntilFailure', B3.Decorator)
+B3.RepeatUntilFailure = repeatUntilFailure
 
 function repeatUntilFailure:ctor(params)
-    b3.Decorator.ctor(self)
+    B3.Decorator.ctor(self)
 
     if not params then
         params = {}
@@ -130,16 +129,16 @@ end
 
 function repeatUntilFailure:tick(tick)
     if not self.child then
-        return b3.ERROR
+        return B3.ERROR
     end
 
     local i = tick.blackboard.get('i', tick.tree.id, self.id)
-    local status = b3.ERROR
+    local status = B3.ERROR
 
     while (self.maxLoop < 0 or i < self.maxLoop) do
         local status = self.child:_execute(tick)
 
-        if status == b3.SUCCESS then
+        if status == B3.SUCCESS then
             i = i + 1
         else
             break
@@ -151,37 +150,37 @@ function repeatUntilFailure:tick(tick)
 end
 
 ---------------------Inverter
-local inverter = b3.Class('Inverter', b3.Decorator)
-b3.Inverter = inverter
+local inverter = B3.Class('Inverter', B3.Decorator)
+B3.Inverter = inverter
 
 function inverter:ctor()
-    b3.Inverter.ctor(self)
+    B3.Inverter.ctor(self)
 
     self.name = 'Inverter'
 end
 
 function inverter:tick(tick)
     if not self.child then
-        return b3.ERROR
+        return B3.ERROR
     end
 
     local status = self.child:_execute(tick)
 
-    if status == b3.SUCCESS then
-        status = b3.FAILURE
-    elseif status == b3.FAILURE then
-        status = b3.SUCCESS
+    if status == B3.SUCCESS then
+        status = B3.FAILURE
+    elseif status == B3.FAILURE then
+        status = B3.SUCCESS
     end
 
     return status
 end
 
 -------------
-local maxTime = b3.Class('MaxTime', b3.Decorator)
-b3.MaxTime = maxTime
+local maxTime = B3.Class('MaxTime', B3.Decorator)
+B3.MaxTime = maxTime
 
 function maxTime:ctor(params)
-    b3.MaxTime.ctor(self)
+    B3.MaxTime.ctor(self)
 
     self.name = 'MaxTime'
     self.title = 'Max <maxTime>ms'
@@ -203,7 +202,7 @@ end
 
 function maxTime:tick(tick)
     if not self.child then
-        return b3.ERROR
+        return B3.ERROR
     end
 
     local currTime = Timer.GetTimeMillisecond()
@@ -211,18 +210,18 @@ function maxTime:tick(tick)
 
     local status = self.child:_execute(tick)
     if currTime - startTime > self.maxTime then
-        return b3.FAILURE
+        return B3.FAILURE
     end
 
     return status
 end
 
 -------------Limiter
-local limiter = b3.Class('Limiter', b3.Decorator)
-b3.Limiter = limiter
+local limiter = B3.Class('Limiter', B3.Decorator)
+B3.Limiter = limiter
 
 function limiter:ctor()
-    b3.Decorator.ctor(self)
+    B3.Decorator.ctor(self)
 
     self.name = 'Limiter'
     self.title = 'Limit <maxLoop> Activations'
@@ -236,7 +235,7 @@ end
 
 function limiter:tick(tick)
     if not self.child then
-        return b3.ERROR
+        return B3.ERROR
     end
 
     local i = tick.blackboard:get('i', tick.tree.id, self.id)
@@ -244,12 +243,12 @@ function limiter:tick(tick)
     if i < self.maxLoop then
         local status = self.child:_execute(tick)
 
-        if status == b3.SUCCESS or status == b3.FAILURE then
+        if status == B3.SUCCESS or status == B3.FAILURE then
             tick.blackboard:set('i', i + 1, tick.tree.id, self.id)
         end
 
         return status
     end
 
-    return b3.FAILURE
+    return B3.FAILURE
 end

@@ -1,6 +1,3 @@
-local b3 = require(BTreePlugin.B3)
-print(b3.VERSION)
-
 local behaviorJson =
     [[
 {
@@ -84,8 +81,8 @@ local behaviorJson =
 ]]
 wait(1)
 print('------------------------------------------------')
-local behaviorTree = b3.BehaviorTree.new()
-local blackBoard = b3.Blackboard.new()
+local behaviorTree = B3.BehaviorTree.new()
+local blackBoard = B3.Blackboard.new()
 behaviorTree:load(behaviorJson, {})
 print('------------------------------------------------')
 

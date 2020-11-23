@@ -1,8 +1,4 @@
-local json = require(BTreePlugin.JSON)
-
-_class = {}
-
-b3 = {
+B3 = {
     VERSION = '0.2.0',
     --Returning status
     SUCCESS = 1,
@@ -97,13 +93,13 @@ b3 = {
         return cls
     end,
     decodeJson = function(str)
-        return json:decode(str)
+        return JSON:decode(str)
     end
 }
 
 ----------------Tick--------------------------
-local tick = b3.Class('Tick')
-b3.Tick = tick
+local tick = B3.Class('Tick')
+B3.Tick = tick
 
 function tick:ctor()
     self.tree = nil
@@ -133,11 +129,11 @@ function tick:_exitNode(node)
 end
 
 ----------------BaseNode----------------------
-local baseNode = b3.Class('BaseNode')
-b3.BaseNode = baseNode
+local baseNode = B3.Class('BaseNode')
+B3.BaseNode = baseNode
 
 function baseNode:ctor(params)
-    self.id = b3.createUUID()
+    self.id = B3.createUUID()
     self.name = ''
     self.title = self.title or self.name
     self.description = ''
@@ -158,7 +154,7 @@ function baseNode:_execute(tick)
     local status = self:_tick(tick)
 
     --CLOSE
-    if status ~= b3.RUNNING then
+    if status ~= B3.RUNNING then
         self:_close(tick)
     end
 
@@ -211,8 +207,8 @@ function baseNode:exit(tick)
 end
 
 ------------------Blackboard------------------------
-local blackboard = b3.Class('Blackboard')
-b3.Blackboard = blackboard
+local blackboard = B3.Class('Blackboard')
+B3.Blackboard = blackboard
 
 function blackboard:ctor()
     self._baseMemory = {}
@@ -268,11 +264,11 @@ function blackboard:get(key, treeScope, nodeScope)
 end
 
 ------------BehaviorTree-----------------------------
-local behaviorTree = b3.Class('BehaviorTree')
-b3.BehaviorTree = behaviorTree
+local behaviorTree = B3.Class('BehaviorTree')
+B3.BehaviorTree = behaviorTree
 
 function behaviorTree:ctor()
-    self.id = b3.createUUID()
+    self.id = B3.createUUID()
     self.title = 'The behavior tree'
     self.description = 'Default description'
     self.properties = {}
@@ -282,8 +278,7 @@ end
 
 function behaviorTree:load(jsonData, names)
     names = names or {}
-    --local data = json.decode(jsonData)
-    local data = json:decode(jsonData)
+    local data = JSON:decode(jsonData)
 
     self.title = data.title or self.title
     self.description = data.description or self.description
@@ -303,8 +298,8 @@ function behaviorTree:load(jsonData, names)
 
         if names[spec.name] then
             Cls = names[spec.name]
-        elseif b3[spec.name] then
-            Cls = b3[spec.name]
+        elseif B3[spec.name] then
+            Cls = B3[spec.name]
         else
             print('Error : BehaviorTree.load : Invalid node name + ' .. spec.name .. '.')
         end
@@ -364,10 +359,10 @@ end
 
 function behaviorTree:tick(target, blackboard)
     if not blackboard then
-        print('The blackboard parameter is obligatory and must be an instance of b3.Blackboard')
+        print('The blackboard parameter is obligatory and must be an instance of B3.Blackboard')
     end
 
-    local tick = b3.Tick.new()
+    local tick = B3.Tick.new()
     tick.debug = self.debug
     tick.target = target
     tick.blackboard = blackboard
@@ -406,4 +401,4 @@ function behaviorTree:tick(target, blackboard)
     blackboard:set('nodeCount', tick._nodeCount, self.id)
 end
 
-return b3
+return B3

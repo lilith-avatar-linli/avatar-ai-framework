@@ -1,18 +1,17 @@
-local b3 = require(BTreePlugin.B3)
 --------------------Composite---------------------
-local composite = b3.Class('Composite', b3.BaseNode)
-b3.Composite = composite
+local composite = B3.Class('Composite', B3.BaseNode)
+B3.Composite = composite
 
 function composite:ctor(params)
     self.children = (params and params.children) or {}
 end
 
 --Composite==========Sequence=================
-local sequence = b3.Class('Sequence', b3.Composite)
-b3.Sequence = sequence
+local sequence = B3.Class('Sequence', B3.Composite)
+B3.Sequence = sequence
 
 function sequence:ctor()
-    b3.Composite.ctor(self)
+    B3.Composite.ctor(self)
 
     self.name = 'Sequence'
 end
@@ -22,19 +21,19 @@ function sequence:tick(tick)
         local v = self.children[i]
         local status = v:_execute(tick)
         --------print(i,v)
-        if status ~= b3.SUCCESS then
+        if status ~= B3.SUCCESS then
             return status
         end
     end
-    return b3.SUCCESS
+    return B3.SUCCESS
 end
 
 --Composite==========MemSequence=================
-local memSequence = b3.Class('MemSequence', b3.Composite)
-b3.MemSequence = memSequence
+local memSequence = B3.Class('MemSequence', B3.Composite)
+B3.MemSequence = memSequence
 
 function memSequence:ctor()
-    b3.Composite.ctor(self)
+    B3.Composite.ctor(self)
 
     self.name = 'MemSequence'
 end
@@ -49,8 +48,8 @@ function memSequence:tick(tick)
         local v = self.children[i]
         local status = v:_execute(tick)
 
-        if status ~= b3.SUCCESS then
-            if status == b3.RUNNING then
+        if status ~= B3.SUCCESS then
+            if status == B3.RUNNING then
                 tick.blackboard:set('runningChild', i, tick.tree.id, self.id)
             end
 
@@ -58,15 +57,15 @@ function memSequence:tick(tick)
         end
     end
 
-    return b3.SUCCESS
+    return B3.SUCCESS
 end
 
 --Composite==========Priority=================
-local priority = b3.Class('Priority', b3.Composite)
-b3.Priority = priority
+local priority = B3.Class('Priority', B3.Composite)
+B3.Priority = priority
 
 function priority:ctor()
-    b3.Composite.ctor(self)
+    B3.Composite.ctor(self)
 
     self.name = 'Priority'
 end
@@ -75,20 +74,20 @@ function priority:tick(tick)
     for i, v in pairs(self.children) do
         local status = v:_execute(tick)
 
-        if status ~= b3.FAILURE then
+        if status ~= B3.FAILURE then
             return status
         end
     end
 
-    return b3.FAILURE
+    return B3.FAILURE
 end
 
 --Composite==========MemPriority=================
-local memPriority = b3.Class('MemPriority', b3.Composite)
-b3.MemPriority = memPriority
+local memPriority = B3.Class('MemPriority', B3.Composite)
+B3.MemPriority = memPriority
 
 function memPriority:ctor()
-    b3.Composite.ctor(self)
+    B3.Composite.ctor(self)
 
     self.name = 'MemPriority'
 end
@@ -103,8 +102,8 @@ function memPriority:tick(tick)
         local v = self.children[i]
         local status = v:_execute(tick)
 
-        if status ~= b3.FAILURE then
-            if status == b3.RUNNING then
+        if status ~= B3.FAILURE then
+            if status == B3.RUNNING then
                 tick.blackboard:set('runningChild', i, tick.tree.id, self.id)
             end
 
@@ -112,5 +111,5 @@ function memPriority:tick(tick)
         end
     end
 
-    return b3.FAILURE
+    return B3.FAILURE
 end
