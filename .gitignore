@@ -1,0 +1,15 @@
+smap/AutoSave_*
+xls/*.lua
+xls/*.csv
+csv/*.lua
+csv/*.xls
+csv/*.xlsm
+csv/*.xlsx
+code/*.csv
+code/*.xls
+code/*.xlsm
+code/*.xlsx
+*.smap.storage
+*.iso
+~$*
+*.idea/
