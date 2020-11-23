@@ -79,6 +79,11 @@ local behaviorJson =
   ]
 }
 ]]
+
+local NpcAiFunc = require(script.Parent.NpcAiFuncModule)
+
+NpcAiFunc:Init()
+
 wait(1)
 print('------------------------------------------------')
 local behaviorTree = B3.BehaviorTree.new()
@@ -86,18 +91,19 @@ local blackBoard = B3.Blackboard.new()
 behaviorTree:load(behaviorJson, {})
 print('------------------------------------------------')
 
+local NPC = script.Parent
+
 while (true) do
     wait(1)
     behaviorTree:tick(nil, blackBoard)
 end
 
 --local i = 1
-local NPC = script.Parent
-while true do
-    wait(0.1)
-    local v3 = localPlayer.Position - script.Parent.Position
-    --NPC:FaceToDir(v3.Normalized,math.pi*10)
-    --i = i+1
-    print(Vector3.Angle(NPC.Forward, v3))
-    --print(type(localPlayer.Right))
-end
+-- while true do
+--     wait(0.1)
+--     local v3 = localPlayer.Position - NPC.Position
+--     --NPC:FaceToDir(v3.Normalized,math.pi*10)
+--     --i = i+1
+--     print(Vector3.Angle(NPC.Forward, v3))
+--     --print(type(localPlayer.Right))
+-- end
