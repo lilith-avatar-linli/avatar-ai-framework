@@ -1,8 +1,8 @@
-local NpcMgr = {}
+local NPCmgrModule = {}
 
 local NPC = script.Parent
 
-function NpcMgr:CanSeePlayer(B3)
+function NPCmgrModule:CanSeePlayer(B3)
     if Vector3.Angle(NPC.Forward, localPlayer.Position - NPC.Position) < 45 then
         return B3.SUCCESS
     else
@@ -10,4 +10,4 @@ function NpcMgr:CanSeePlayer(B3)
     end
 end
 
-return NpcMgr
+return NPCmgrModule
