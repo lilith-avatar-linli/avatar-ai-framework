@@ -1,7 +1,8 @@
-local b3 = require (BTreePlugin.B3)
+local b3 = require(BTreePlugin.B3)
 print(b3.VERSION)
 
-local behaviorJson = [[
+local behaviorJson =
+    [[
 {
   "version": "0.3.0",
   "scope": "tree",
@@ -82,32 +83,24 @@ local behaviorJson = [[
 }
 ]]
 wait(1)
-print("------------------------------------------------")
+print('------------------------------------------------')
 local behaviorTree = b3.BehaviorTree.new()
 local blackBoard = b3.Blackboard.new()
 behaviorTree:load(behaviorJson, {})
-print("------------------------------------------------")
+print('------------------------------------------------')
 
-while(true) do
-	wait(1)
-	behaviorTree:tick(nil, blackBoard)
+while (true) do
+    wait(1)
+    behaviorTree:tick(nil, blackBoard)
 end
-
-
-
-
-
-
-
-
 
 --local i = 1
 local NPC = script.Parent
 while true do
-	wait(0.1)
-	local v3 = localPlayer.Position - script.Parent.Position
-	--NPC:FaceToDir(v3.Normalized,math.pi*10)
-	--i = i+1
-	print(Vector3.Angle(NPC.Forward,v3))
-	--print(type(localPlayer.Right))
+    wait(0.1)
+    local v3 = localPlayer.Position - script.Parent.Position
+    --NPC:FaceToDir(v3.Normalized,math.pi*10)
+    --i = i+1
+    print(Vector3.Angle(NPC.Forward, v3))
+    --print(type(localPlayer.Right))
 end
