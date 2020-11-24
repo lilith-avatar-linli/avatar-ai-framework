@@ -289,7 +289,7 @@ function behaviorTree:load(jsonData, names)
     --print(table.dump(data))
     print(self.title)
     --print(self.description)
-    print(table.dump(data.nodes))
+    --print(table.dump(data.nodes))
 
     local nodes = {}
     local id, spec, node

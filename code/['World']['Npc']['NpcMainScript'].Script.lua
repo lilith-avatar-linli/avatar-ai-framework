@@ -1,5 +1,5 @@
 local behaviorJson =
-    [[
+[[
 {
   "version": "0.3.0",
   "scope": "tree",
@@ -43,7 +43,9 @@ local behaviorJson =
       "category": "condition",
       "title": "CanSeePlayer",
       "description": "角色状态检测，根据不同的Title执行不同检测",
-      "properties": {},
+      "properties": {
+        "range": 90
+      },
       "display": {
         "x": 336,
         "y": -36
@@ -70,40 +72,27 @@ local behaviorJson =
     {
       "version": "0.3.0",
       "scope": "node",
+      "name": "Print",
+      "category": "action",
+      "title": "打印",
+      "description": "打印一些信息",
+      "properties": {},
+      "parent": null
+    },
+    {
+      "version": "0.3.0",
+      "scope": "node",
       "name": "StatusCheck",
       "category": "condition",
       "title": "角色状态",
       "description": "角色状态检测，根据不同的Title执行不同检测",
-      "properties": {}
+      "properties": {},
+      "parent": null
     }
-  ]
+  ],
+  "custom_folders": []
 }
 ]]
 
-local NpcAiFunc = require(script.Parent.NpcAiFuncModule)
-
-NpcAiFunc:Init()
-
-wait(1)
-print('------------------------------------------------')
-local behaviorTree = B3.BehaviorTree.new()
-local blackBoard = B3.Blackboard.new()
-behaviorTree:load(behaviorJson, {})
-print('------------------------------------------------')
-
-local NPC = script.Parent
-
-while (true) do
-    wait(1)
-    behaviorTree:tick(nil, blackBoard)
-end
-
---local i = 1
--- while true do
---     wait(0.1)
---     local v3 = localPlayer.Position - NPC.Position
---     --NPC:FaceToDir(v3.Normalized,math.pi*10)
---     --i = i+1
---     print(Vector3.Angle(NPC.Forward, v3))
---     --print(type(localPlayer.Right))
--- end
+local NPC = require(script.Parent.NPCmgrModule)
+NPC:Run(behaviorJson)

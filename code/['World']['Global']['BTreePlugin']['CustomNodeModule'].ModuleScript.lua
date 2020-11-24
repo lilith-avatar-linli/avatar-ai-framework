@@ -1,22 +1,28 @@
 local CustomNode = {}
 function CustomNode:Init()
-    local testr = B3.Class('Test', B3.Action)
-    B3.Test = testr
+    local statusCheck = B3.Class('StatusCheck', B3.Condition)
+    B3.StatusCheck = statusCheck
 
-    function testr:ctor()
-        B3.Action.ctor(self)
-
-        self.name = 'Test'
+    function statusCheck:ctor()
+        B3.Condition.ctor(self)
+        self.name = 'StatusCheck'
     end
 
-    function testr:tick(tick)
-        print(self.title)
-        --print(type(self.properties.mVal))
-        if (self.properties.mVal == 'true') then
-            return B3.SUCCESS
-        else
-            return B3.RUNNING
-        end
+    function statusCheck:tick(tick)
+        return tick.target:StatusCheck(B3,self)
+    end
+
+    local heroAction = B3.Class('HeroAction', B3.Action)
+    B3.HeroAction = heroAction
+
+    function heroAction:ctor()
+        B3.Action.ctor(self)
+        self.name = 'HeroAction'
+    end
+
+    function heroAction:tick(tick)
+		--print(type(tick))
+        return tick.target:HeroAction(B3,self)
     end
 end
 
