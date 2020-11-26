@@ -1,0 +1,15 @@
+_G.JSON = require(BTreePlugin.Core.JsonModule)
+_G.B3 = require(BTreePlugin.Core.B3Module)
+ActionNode = require(BTreePlugin.Core.ActionNodeModule)
+CompositeNode = require(BTreePlugin.Core.CompositeNodeModule)
+ConditionNode = require(BTreePlugin.Core.ConditionNodeModule)
+DecoratorNode = require(BTreePlugin.Core.DecoratorNodeModule)
+CustomNode = require(BTreePlugin.Core.CustomNodeModule)
+
+ActionNode:Init()
+CompositeNode:Init()
+ConditionNode:Init()
+DecoratorNode:Init()
+CustomNode:Init()
+
+print(B3.VERSION)
